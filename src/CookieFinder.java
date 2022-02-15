@@ -2,6 +2,15 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class CookieFinder {
+    public static void main(String[] args) {
+        //Run from the command line
+        CookieFinder finder = new CookieFinder(args[0], args[2]);
+        String[] results = finder.get_active_cookies();
+        for (String cookie : results) {
+            System.out.println(cookie);
+        }
+    }
+
     //Set up variable
     String filename;
     String date;
@@ -21,11 +30,12 @@ public class CookieFinder {
         //Open the file and reader
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader("C:\\Users\\drewt\\IdeaProjects\\most_active_cookies\\src\\" + filename));
+            //I open the file from my personal file locations
+            reader = new BufferedReader(new FileReader("C:\\Users\\drewt\\IdeaProjects\\most_active_cookies\\" + filename));
             String line = reader.readLine();
             //Read every line
             while (line != null) {
-                System.out.println(line);
+                //System.out.println(line);
                 //Split the line into separate variables
                 int commaInd = line.indexOf(',');
                 String cookie = line.substring(0, commaInd);
@@ -51,6 +61,7 @@ public class CookieFinder {
                         cookies.add(cookie);
                     }
                 } else if (done){
+                    //This ends the loop early when the date is past
                     break;
                 }
 
@@ -58,8 +69,12 @@ public class CookieFinder {
             }
 
             reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR FINDING FILE");
+            cookies.clear();
         } catch (Exception e) {
-            System.out.println("ERROR: TROUBLE OPENING FILE");
+            System.out.println("FORMATTING ERROR");
+            cookies.clear();
         }
 
         String[] cookieList = new String[cookies.size()];
