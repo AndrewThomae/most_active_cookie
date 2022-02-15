@@ -15,7 +15,8 @@ public class CookieFinder {
     //Find all the cookies that fit the date requirement, and return in an array
     public String[] get_active_cookies() {
         ArrayList<String> cookies = new ArrayList<String>();
-        int curQuant = 0;
+        int curQuant = -1; //value of most requested cookie
+        boolean done = false; //ends the program when you get past the correct date
 
         //Open the file and reader
         BufferedReader reader;
@@ -36,21 +37,25 @@ public class CookieFinder {
 
                 //System.out.println("Cookie: " + cookie + ", cDate: " + cDate + ",strNum: " + strNum);
 
-                //When the read cookie is requested more than the saved cookies,
-                //restart the array
-                if (cookNum > curQuant) {
-                    cookies.clear();
-                    cookies.add(cookie);
-                    curQuant = cookNum;
-                }
-                //When they are the same, add it to the array
-                else if (cookNum == curQuant) {
-                    cookies.add(cookie);
+                if (cDate.equals(date)) {
+                    //When the read cookie is requested more than the saved cookies,
+                    //restart the array
+                    if (cookNum > curQuant) {
+                        cookies.clear();
+                        cookies.add(cookie);
+                        curQuant = cookNum;
+                        done = true;
+                    }
+                    //When they are the same, add it to the array
+                    else if (cookNum == curQuant) {
+                        cookies.add(cookie);
+                    }
+                } else if (done){
+                    break;
                 }
 
                 line = reader.readLine();
             }
-
 
             reader.close();
         } catch (Exception e) {
