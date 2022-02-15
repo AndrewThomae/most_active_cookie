@@ -3,6 +3,10 @@ import java.util.ArrayList;
 
 public class CookieFinder {
     public static void main(String[] args) {
+        //Make sure arguments are passed
+        if (args.length != 3) {
+            System.out.println("MUST GIVE PROPER ARGUMENTS");
+        }
         //Run from the command line
         CookieFinder finder = new CookieFinder(args[0], args[2]);
         String[] results = finder.get_active_cookies();
